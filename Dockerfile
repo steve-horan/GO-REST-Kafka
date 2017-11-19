@@ -1,8 +1,8 @@
 FROM golang:latest
 
 RUN mkdir /app
-COPY GoRest /app
+COPY GO-REST-Kafka /app
 WORKDIR /app
 
 
-CMD [ "/app/GoRest" ]
+CMD [ "/app/GO-REST-Kafka" ]
