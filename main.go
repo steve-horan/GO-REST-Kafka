@@ -69,7 +69,7 @@ func brokerStatus(w http.ResponseWriter, r *http.Request) {
 		if container.Names[0] == "/kafka" && container.State == "running" {
 			r := KafkaResp{Kafka: "running"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/kafka" && container.State != "running" {
 			r := KafkaResp{Kafka: "Not Running"}
 			json.NewEncoder(w).Encode(r)
 		}
@@ -88,7 +88,7 @@ func brokerKill(w http.ResponseWriter, r *http.Request) {
 			}
 			r := KafkaResp{Kafka: "Killed"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/kafka" && container.State != "running" {
 			r := KafkaResp{Kafka: "Not Running"}
 			json.NewEncoder(w).Encode(r)
 		}
@@ -103,7 +103,7 @@ func brokerStart(w http.ResponseWriter, r *http.Request) {
 		if container.Names[0] == "/kafka" && container.State == "running" {
 			r := KafkaResp{Kafka: "Already Running"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/kafka" && container.State != "running" {
 			if err := cli.ContainerStart(ctx, container.ID, types.ContainerStartOptions{}); err != nil {
 				r := KafkaResp{Kafka: "Cannot Start"}
 				json.NewEncoder(w).Encode(r)
@@ -121,7 +121,7 @@ func zookeeperStatus(w http.ResponseWriter, r *http.Request) {
 		if container.Names[0] == "/zookeeper" && container.State == "running" {
 			r := ZkResp{Zookeeper: "running"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/zookeeper" && container.State != "running" {
 			r := ZkResp{Zookeeper: "Not Running"}
 			json.NewEncoder(w).Encode(r)
 		}
@@ -140,7 +140,7 @@ func zookeeperKill(w http.ResponseWriter, r *http.Request) {
 			}
 			r := ZkResp{Zookeeper: "Killed"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/zookeeper" && container.State != "running" {
 			r := ZkResp{Zookeeper: "Not Running"}
 			json.NewEncoder(w).Encode(r)
 		}
@@ -155,7 +155,7 @@ func zookeeperStart(w http.ResponseWriter, r *http.Request) {
 		if container.Names[0] == "/zookeeper" && container.State == "running" {
 			r := ZkResp{Zookeeper: "Already Running"}
 			json.NewEncoder(w).Encode(r)
-		} else {
+		} else if container.Names[0] == "/zookeeper" && container.State != "running" {
 			if err := cli.ContainerStart(ctx, container.ID, types.ContainerStartOptions{}); err != nil {
 				r := ZkResp{Zookeeper: "Cannot Start"}
 				json.NewEncoder(w).Encode(r)
